@@ -1,0 +1,28 @@
+const express = require("express")
+const { registerUser, loginUser, depositFunds, getDeposits, withdrawFunds, getWithdrawals, getUserProfile, updateUserInfo, createInvestment, getInvestmentByUserId, getTransactionHistory } = require("../controllers/userController")
+const { requireSignin, parser } = require("../middlewares")
+const routes = express.Router()
+
+routes.post("/register",registerUser)
+routes.post("/login",loginUser)
+routes.post("/deposit", requireSignin, depositFunds)
+routes.get("/deposits",requireSignin, getDeposits)
+routes.post("/withdraw",requireSignin, withdrawFunds)
+routes.get("/withdrawals",requireSignin, getWithdrawals)
+routes.get("/profile",requireSignin, getUserProfile)
+routes.post("/update", requireSignin,updateUserInfo)
+routes.post("/purchase", requireSignin, createInvestment)
+routes.get("/user-investments", requireSignin, getInvestmentByUserId)
+
+routes.get("/transactions",requireSignin,getTransactionHistory)
+// routes.post("/forgot/password",forgotPassword)
+// routes.post("/password/new",verify)
+// routes.get("/refferalData",requireSignin,refferalData)
+// routes.get("/refferalData2",refferalData2)
+// routes.patch("/profile/update/bank",requireSignin,updateBankDetails)
+// routes.patch("/profile/update/socials",requireSignin,updateSocialDetails)
+// routes.patch("/profile/update/personal",requireSignin,parser,updatePersonalDetails)
+// routes.get("/profile/byID/:id",getProfileById)
+// routes.patch("/profile/image",requireSignin,parser,uploadProfilePicture)
+
+module.exports=routes
