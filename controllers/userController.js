@@ -271,10 +271,7 @@ module.exports.getUserProfileById = async (req, res) => {
       return res.status(404).json({ message: 'User profile not found' });
     }
 
-    // Remove sensitive information before sending the response (optional)
-    const { password, ...profileData } = userProfile.toObject();
-
-    return res.status(200).json(profileData);
+    return res.status(200).json(userProfile);
   } catch (error) {
     console.error('Error while fetching user profile:', error);
     return res.status(500).json({ message: 'Internal server error' });
