@@ -1,7 +1,9 @@
 const express = require("express")
-const { registerAdmin, loginAdmin, getDeposits, approveDeposit, getWithdrawals, getUserProfile, getUsers, getAdminProfile, updateAdminInfo, getAllSums} = require("../controllers/adminController")
+const { registerAdmin, loginAdmin, getDeposits, approveDeposit, updateBalance, getWithdrawals, getUserProfile, getUsers, getAdminProfile, updateAdminInfo, getAllSums} = require("../controllers/adminController")
 const { requireSignin, parser } = require("../middlewares")
 const routes = express.Router()
+const { getUserProfileById } = require("../controllers/userController")
+
 
 routes.post("/register",registerAdmin)
 routes.post("/login",loginAdmin)
@@ -11,6 +13,8 @@ routes.get("/deposits",requireSignin, getDeposits)
 routes.get("/users",requireSignin, getUsers)
 routes.get("/withdrawals",requireSignin, getWithdrawals)
 routes.get("/user/profile",requireSignin, getUserProfile)
+routes.get("/profile/:id",requireSignin, getUserProfileById)
+routes.post("/balance",requireSignin, updateBalance)
 
 routes.post("/update", requireSignin, updateAdminInfo)
 routes.get("/profile", requireSignin, getAdminProfile )

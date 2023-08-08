@@ -260,6 +260,26 @@ module.exports.getUserProfile = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+module.exports.getUserProfileById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Fetch the user profile from the database
+    const userProfile = await User.findById(id);
+
+    if (!userProfile) {
+      return res.status(404).json({ message: 'User profile not found' });
+    }
+
+    // Remove sensitive information before sending the response (optional)
+    const { password, ...profileData } = userProfile.toObject();
+
+    return res.status(200).json(profileData);
+  } catch (error) {
+    console.error('Error while fetching user profile:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
 
 module.exports.updateUserInfo = async (req, res) => {
   try {

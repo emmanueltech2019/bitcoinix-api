@@ -243,3 +243,25 @@ module.exports.registerAdmin = async (req, res) => {
       res.status(500).json({ error: 'Could not retrieve transaction history.' });
     }
   };
+
+  module.exports.updateBalance = async (req, res) => {
+    try {
+      const { balance, id } = req.body;
+  
+      // Check if the user exists in the database
+      const user = await User.findById(id);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Update the user's balance
+      user.balance = balance;
+
+      await user.save();
+  
+      return res.status(200).json({ message: 'Admin information updated successfully', user });
+    } catch (error) {
+      console.error('Error during user information update:', error);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  };
